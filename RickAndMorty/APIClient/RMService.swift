@@ -19,24 +19,9 @@ final class RMService {
     /// Send Rick and Morty API Call
     /// - Parameters:
     ///   - request: Request instance
+    ///   - type: The type of object we expect to get back
     ///   - completion: Callback with data or error
-    public func execute(_ request: RMRequest, completion: @escaping () -> Void) {
-        guard let url = URL(string: "https://rickandmortyapi.com/api") else {
-            return
-        }
-        
-        let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, response, error in
-            guard let data = data, let _ = response, error == nil else {
-                return
-            }
-            
-            do {
-                let result = try JSONSerialization.jsonObject(with: data)
-                print(result)
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
-        task.resume()
+    public func execute<T: Codable>(_ request: RMRequest, expecting type: T.Type, completion: @escaping (Result<String, Error>) -> Void) {
+       
     }
 }
